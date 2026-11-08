@@ -13,13 +13,9 @@ js/classroom.js   – interaktivní 3D vizualizace učebny (Three.js)
 favicon.svg       – ikona webu
 ```
 
-## Co je potřeba doplnit
+## Autor
 
-V `index.html` jsou místa označená komentářem `✏️ DOPLŇTE`:
-
-- jméno a příjmení pořadatele (sekce Kontakt + patička),
-- e-mail pořadatele (2× v sekci Kontakt),
-- telefon pořadatele.
+Pavel Procházka – pořadatel akce a autor webu.
 
 ## Spuštění a nasazení
 
