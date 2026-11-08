@@ -36,7 +36,7 @@
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  const COLORS = { bg: 0x08080a, acid: 0xd4ff3d, blue: 0x3d7bff, red: 0xff3b3b, white: 0xdfe6ff };
+  const COLORS = { bg: 0x08080a, acid: 0xff6a3d, blue: 0x3d7bff, red: 0xff3b3b, white: 0xdfe6ff };
   const EVENT_START = new Date('2026-11-07T08:00:00+01:00').getTime();
 
   // Rozměry v metrech
@@ -215,7 +215,7 @@
       const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 });
       composer = new EffectComposer(renderer, target);
       composer.addPass(new RenderPass(scene, camera));
-      composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), 0.6, 0.45, 0.85));
+      composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), 0.4, 0.4, 0.88));
       composer.addPass(new OutputPass());
     }
 
@@ -300,7 +300,7 @@
         g.fillStyle = 'rgba(5, 5, 8, 0.88)';
         g.fillRect(W * 0.27, H - 48, W * 0.46, 42);
         for (let i = 0; i < 4; i++) {
-          g.fillStyle = i === variant + 1 ? '#d4ff3d' : '#2a2a35';
+          g.fillStyle = i === variant + 1 ? '#ff6a3d' : '#2a2a35';
           g.fillRect(W * 0.29 + i * 34, H - 42, 28, 28);
         }
         g.fillStyle = '#3ddc84';
@@ -339,7 +339,7 @@
         g.textBaseline = 'middle';
         g.fillStyle = '#ffffff';
         g.fillText('● LIVE', 34, 42);
-        g.fillStyle = '#d4ff3d';
+        g.fillStyle = '#ff6a3d';
         g.font = '900 46px Archivo, sans-serif';
         g.fillText('KOMENTÁŘ', 24, 110);
         // zvuková vlna
@@ -379,7 +379,7 @@
 
         g.textBaseline = 'alphabetic';
         g.textAlign = 'left';
-        g.fillStyle = '#d4ff3d';
+        g.fillStyle = '#ff6a3d';
         g.font = '700 24px "JetBrains Mono", monospace';
         g.fillText('SOŠ IS KOLÍN · E-SPORTOVÁ UČEBNA', 56, 78);
         g.textAlign = 'right';
@@ -396,7 +396,7 @@
         const countdown = diff > 0
           ? [Math.floor(diff / 86400), Math.floor((diff % 86400) / 3600), Math.floor((diff % 3600) / 60), diff % 60].map(pad2).join(':')
           : 'PRÁVĚ TEĎ!';
-        g.fillStyle = '#d4ff3d';
+        g.fillStyle = '#ff6a3d';
         g.font = '500 56px "JetBrains Mono", monospace';
         g.fillText(countdown, 54, 436);
         g.fillStyle = 'rgba(255, 255, 255, 0.55)';
@@ -430,13 +430,13 @@
       return canvasTexture(1024, 360, (g, W) => {
         g.textAlign = 'center';
         g.textBaseline = 'middle';
-        g.shadowColor = '#d4ff3d';
+        g.shadowColor = '#ff6a3d';
         g.shadowBlur = 36;
-        g.fillStyle = '#f1ffc4';
+        g.fillStyle = '#ffe2d6';
         g.font = 'italic 900 176px Archivo, sans-serif';
         g.fillText('E-SPORT', W / 2, 150);
         g.shadowBlur = 16;
-        g.fillStyle = '#d4ff3d';
+        g.fillStyle = '#ff6a3d';
         g.font = '700 44px "JetBrains Mono", monospace';
         g.fillText('SOŠ IS KOLÍN · 2026', W / 2, 296);
       });
@@ -528,7 +528,7 @@
       edge: glow(COLORS.acid, 0.9),
       white: glow(COLORS.white, 0.9),
       argb: glow(0xff00ff, 2.4),
-      doorGlow: glow(0xf4ffd6, 0.85),
+      doorGlow: glow(0xfff1e6, 0.85),
       ring: glow(COLORS.acid, 2),
 
       bigScreen: screenMaterial(bigScreen.texture, 1.25),

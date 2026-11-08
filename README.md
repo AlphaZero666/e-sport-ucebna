@@ -29,17 +29,14 @@ V `index.html` jsou místa označená komentářem `✏️ DOPLŇTE`:
 
 ## Použité knihovny
 
-- [GSAP + ScrollTrigger](https://gsap.com/) – animace při scrollu
-- [Lenis](https://lenis.darkroom.engineering/) – plynulý scroll
+- [GSAP + ScrollTrigger](https://gsap.com/) – otevírání brány při scrollu
 - [Three.js](https://threejs.org/) – 3D vizualizace učebny
-- Písma Archivo a JetBrains Mono (Google Fonts)
+- Písmo Archivo (Google Fonts)
 
 ## Funkce
 
 - úvodní „brána“, která se při scrollu otevře a odhalí 3D učebnu,
-- živý odpočet do začátku akce, štítek „Právě probíhá“ v harmonogramu,
+- harmonogram jako tištěný rozpis, v den akce se označí, co právě probíhá,
 - 3D učebna: otáčení tažením, přepínání pohledů, zvýraznění vybavení ze seznamu,
-- výběr účinkujících ve stylu bojové hry (ovládání i šipkami),
 - stažení události do kalendáře (.ics), mapa, mobilní menu,
-- respektuje systémové nastavení „omezit pohyb“,
-- tajemství: zkuste na klávesnici ↑ ↑ ↓ ↓ ← → ← → B A.
+- respektuje systémové nastavení „omezit pohyb“.

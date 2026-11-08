@@ -4,28 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Otevření e-sportové učebny · 7. 11. 2026 · SOŠ informatiky a spojů Kolín</title>
-  <meta name="description" content="Brány nové e-sportové učebny v Kolíně se otevírají 7. 11. 2026. Celodenní program pro veřejnost: slavnostní otevření, prohlídka vybavení, zápasy, doprovodný program, afterparty a ohňostroj ve 20:00.">
-  <meta name="theme-color" content="#08080a">
+  <meta name="description" content="Brány nové e-sportové učebny v Kolíně se otevírají v sobotu 7. 11. 2026. Celodenní program pro veřejnost od 8:00 do 20:00.">
+  <meta name="theme-color" content="#efece4">
 
-  <!-- Náhled při sdílení na sociálních sítích -->
-  <meta property="og:title" content="Brány se otevírají · E-sportová učebna Kolín">
-  <meta property="og:description" content="Celodenní program k otevření nové e-sportové učebny – 7. 11. 2026, SOŠ informatiky a spojů Kolín.">
+  <meta property="og:title" content="Brány se otevírají – e-sportová učebna SOŠ IS Kolín">
+  <meta property="og:description" content="Celodenní program k otevření nové e-sportové učebny, sobota 7. 11. 2026.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-  <!-- Písma: Archivo (variabilní šířka i tloušťka) + JetBrains Mono – obě podporují češtinu -->
+  <!-- Písmo Archivo (proměnná šířka i tloušťka, podporuje češtinu) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap">
 
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Hned po načtení hlavičky přepneme třídu no-js → js (CSS pak ví, že běží JavaScript) -->
+  <!-- CSS tak pozná, že běží JavaScript -->
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
 
-  <!-- Import map: odkud se načítá knihovna Three.js pro 3D vizualizaci učebny -->
+  <!-- Odkud se načítá knihovna Three.js pro 3D vizualizaci učebny -->
   <script type="importmap">
     {
       "imports": {
@@ -39,637 +38,272 @@
 <body>
   <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
 
-  <!-- =====================================================================
-       PRELOADER – herní „načítací obrazovka“ (skryje se po načtení scény)
-       ===================================================================== -->
-  <div class="loader" aria-hidden="true">
-    <div class="loader__row hud">
-      <span>SOŠ IS Kolín // E-sport</span>
-      <span>Build 07.11.2026</span>
-    </div>
-    <div class="loader__count"><span data-loader-count>000</span><sup>%</sup></div>
-    <div class="loader__bar"><span data-loader-bar></span></div>
-    <div class="loader__row hud">
-      <span data-loader-label>Načítání učebny…</span>
-      <span class="loader__tip">Tip: zkuste ↑↑↓↓←→←→BA</span>
-    </div>
-  </div>
-
-  <!-- 3D scéna (Three.js) – je pevně za obsahem a prosvítá v úvodu a v sekci Učebna -->
+  <!-- 3D scéna (Three.js) – leží za stránkou a je vidět v úvodu a v sekci Učebna -->
   <div class="scene" aria-hidden="true">
     <canvas class="scene__canvas"></canvas>
   </div>
 
-  <!-- Filmové zrno přes celou stránku (čistě dekorace) -->
-  <div class="grain" aria-hidden="true"></div>
-
-  <!-- Vlastní kurzor (jen pro myš) -->
-  <div class="cursor" aria-hidden="true">
-    <span class="cursor__ring"></span>
-    <span class="cursor__dot"></span>
-    <span class="cursor__label"></span>
-  </div>
-
   <!-- =====================================================================
-       HLAVIČKA – logo, navigace, „XP lišta“ (průběh scrollování)
+       HLAVIČKA
        ===================================================================== -->
   <header class="header">
-    <a class="header__logo pill" href="#uvod" aria-label="SOŠ IS Kolín – e-sportová učebna, zpět na začátek">
+    <a class="header__logo" href="#uvod">
       <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="currentColor"/>
-        <rect x="6" y="7" width="8.5" height="18" rx="1.5" fill="#08080a"/>
-        <rect x="17.5" y="7" width="8.5" height="18" rx="1.5" fill="#08080a"/>
+        <rect width="32" height="32" fill="currentColor"/>
+        <rect x="6" y="7" width="8.5" height="18" fill="#efece4"/>
+        <rect x="17.5" y="7" width="8.5" height="18" fill="#efece4"/>
       </svg>
-      <span class="header__logo-text">SOŠ IS Kolín<b>E-sport</b></span>
+      <span>SOŠ IS Kolín <span class="header__logo-sub">E-sportová učebna</span></span>
     </a>
 
-    <nav class="header__nav pill" aria-label="Hlavní navigace">
+    <nav class="header__nav" aria-label="Hlavní navigace">
       <ul>
-        <li><a href="#udalost" data-scramble>Událost</a></li>
-        <li><a href="#program" data-scramble>Program</a></li>
-        <li><a href="#hvezdy" data-scramble>Hvězdy</a></li>
-        <li><a href="#ucebna" data-scramble>Učebna</a></li>
-        <li><a href="#partneri" data-scramble>Partneři</a></li>
-        <li><a href="#kontakt" data-scramble>Kontakt</a></li>
+        <li><a href="#o-akci">O akci</a></li>
+        <li><a href="#program">Program</a></li>
+        <li><a href="#vystoupi">Kdo vystoupí</a></li>
+        <li><a href="#ucebna">Učebna</a></li>
+        <li><a href="#partneri">Partneři</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
       </ul>
     </nav>
 
-    <div class="header__xp pill" aria-hidden="true">
-      <span class="xp__lvl">LVL <b data-xp-level>00</b></span>
-      <span class="xp__bar"><i data-xp-bar></i></span>
-    </div>
-
-    <button class="burger pill" type="button" aria-expanded="false" aria-controls="menu" aria-label="Otevřít menu">
-      <span class="burger__lines" aria-hidden="true"><i></i><i></i></span>
-      <span class="burger__text">Menu</span>
-    </button>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   </header>
 
-  <!-- Mobilní menu (celoobrazovkové) -->
+  <!-- Mobilní menu -->
   <div class="menu" id="menu" aria-hidden="true" inert>
-    <nav class="menu__nav" aria-label="Mobilní navigace">
-      <ol>
-        <li style="--i:0"><a class="menu__link" href="#udalost"><span>01</span>Událost</a></li>
-        <li style="--i:1"><a class="menu__link" href="#program"><span>02</span>Program</a></li>
-        <li style="--i:2"><a class="menu__link" href="#hvezdy"><span>03</span>Hvězdy</a></li>
-        <li style="--i:3"><a class="menu__link" href="#ucebna"><span>04</span>Učebna</a></li>
-        <li style="--i:4"><a class="menu__link" href="#partneri"><span>05</span>Partneři</a></li>
-        <li style="--i:5"><a class="menu__link" href="#kontakt"><span>06</span>Kontakt</a></li>
-      </ol>
+    <nav aria-label="Mobilní navigace">
+      <ul>
+        <li><a href="#o-akci">O akci</a></li>
+        <li><a href="#program">Program</a></li>
+        <li><a href="#vystoupi">Kdo vystoupí</a></li>
+        <li><a href="#ucebna">Učebna</a></li>
+        <li><a href="#partneri">Partneři</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
     </nav>
-    <div class="menu__foot hud">
-      <span>Sobota 07.11.2026 · 08:00–20:00</span>
-      <span>Jaselská 826, Kolín</span>
-    </div>
+    <p class="menu__foot">Sobota 7. 11. 2026, 8:00–20:00<br>Jaselská 826, Kolín</p>
   </div>
 
   <main id="obsah">
 
     <!-- ===================================================================
-         00 · ÚVOD (HERO) – „Brány se otevírají“
-         Dvě křídla brány se při scrollu rozjedou a odhalí 3D učebnu.
+         ÚVOD – „Brány se otevírají“
+         Dvě poloviny stránky se při scrollu rozjedou a odhalí 3D učebnu.
          =================================================================== -->
     <section class="hero" id="uvod" aria-labelledby="hero-title">
-      <h1 class="sr-only" id="hero-title">Otevření nové e-sportové učebny – SOŠ informatiky a spojů Kolín, 7. listopadu 2026</h1>
+      <h1 class="sr-only" id="hero-title">Brány se otevírají – otevření nové e-sportové učebny, SOŠ informatiky a spojů Kolín, sobota 7. listopadu 2026</h1>
 
-      <!-- Horní křídlo brány -->
       <div class="gate gate--top">
         <div class="gate__meta">
-          <p class="hud gate__info" data-intro>
-            <span class="live-dot" aria-hidden="true"></span>
-            Sobota 07.11.2026 · 08:00–20:00<br>
-            SOŠ informatiky a spojů Kolín
-          </p>
-
-          <div class="countdown" data-intro>
-            <p class="hud countdown__label" data-countdown-label>Do otevření zbývá</p>
-            <p class="countdown__digits" data-countdown>
-              <span><b data-cd="d">00</b><small>dní</small></span>
-              <span><b data-cd="h">00</b><small>hod</small></span>
-              <span><b data-cd="m">00</b><small>min</small></span>
-              <span><b data-cd="s">00</b><small>sek</small></span>
-            </p>
-          </div>
+          <p>Sobota 7. listopadu 2026, 8:00–20:00<br>SOŠ informatiky a spojů, Jaselská 826, Kolín</p>
+          <p class="countdown" data-countdown>&nbsp;</p>
         </div>
-
-        <div class="gate__word gate__word--top" data-fit data-fit-max="0.23" aria-hidden="true"><span>Brány se</span></div>
+        <div class="gate__word" data-fit data-fit-max="0.24" aria-hidden="true"><span>Brány se</span></div>
       </div>
 
-      <!-- Spodní křídlo brány -->
       <div class="gate gate--bottom">
-        <div class="gate__word gate__word--bottom" data-fit data-fit-max="0.23" aria-hidden="true"><span>otevírají</span></div>
-
+        <div class="gate__word" data-fit data-fit-max="0.24" aria-hidden="true"><span>otevírají</span></div>
         <div class="gate__foot">
-          <p class="gate__intro" data-intro>
-            Nová e-sportová učebna v&nbsp;Kolíně. Celodenní program pro širokou veřejnost&nbsp;– od slavnostního otevření v&nbsp;8:00 až po ohňostroj ve 20:00.
+          <p class="gate__intro">
+            Naše škola otevírá novou e-sportovou učebnu. Přijďte se podívat&nbsp;– program běží celý den, od slavnostního otevření v&nbsp;8:00 až po ohňostroj ve 20:00. Vstup je pro veřejnost.
           </p>
-          <div class="gate__actions" data-intro>
-            <a class="btn btn--acid" href="#program" data-magnetic>Program dne <span aria-hidden="true">→</span></a>
-            <button class="btn btn--ghost" type="button" data-ics data-magnetic>+ Do kalendáře</button>
-          </div>
-          <p class="gate__scroll hud" data-intro>Scrolluj<br>a otevři bránu <span aria-hidden="true">↓</span></p>
-        </div>
-
-        <!-- Běžící pás s klíčovými informacemi -->
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee__track">
-            <span>Otevření e-sportové učebny ✦ 07.11.2026 ✦ 16 herních stanic ✦ 117 kusů periferií ✦ Gaudeamus Igitur ✦ League of Legends ✦ Pivo Furiant ✦ Ohňostroj ve 20:00 ✦&nbsp;</span>
-            <span>Otevření e-sportové učebny ✦ 07.11.2026 ✦ 16 herních stanic ✦ 117 kusů periferií ✦ Gaudeamus Igitur ✦ League of Legends ✦ Pivo Furiant ✦ Ohňostroj ve 20:00 ✦&nbsp;</span>
+          <div class="gate__actions">
+            <a class="btn btn--ink" href="#program">Program dne</a>
+            <button class="btn" type="button" data-ics>Přidat do kalendáře</button>
           </div>
         </div>
       </div>
 
-      <!-- Text, který se objeví, když je brána otevřená -->
-      <div class="hero__reveal">
-        <p class="hud">▲ Vizualizace nové učebny ▼</p>
-        <p class="hero__reveal-title">Vstupte<br>do&nbsp;hry.</p>
-        <p class="hero__reveal-sub hud">16 herních stanic · 117 kusů periferií · 32 kusů nábytku</p>
+      <!-- Popisek k vizualizaci, objeví se po otevření -->
+      <p class="hero__caption">
+        <b>Vizualizace nové učebny.</b> 16 herních stanic ve dvou ostrovech, komentátorský pult a projekce. Scrollujte dál.
+      </p>
+    </section>
+
+
+    <!-- ===================================================================
+         O AKCI
+         =================================================================== -->
+    <section class="section" id="o-akci" aria-labelledby="o-akci-title">
+      <div class="container split">
+        <h2 class="section-title" id="o-akci-title">O akci</h2>
+
+        <div class="split__body">
+          <p class="lead">
+            Brány nové e-sportové učebny se otevřou na&nbsp;začátku listopadu, a&nbsp;to konkrétně v&nbsp;sobotu 7.&nbsp;11.&nbsp;2026 v&nbsp;kolínské Střední škole informatiky. Tato spojařská bašta jde ruku v&nbsp;ruce s&nbsp;moderními trendy kupředu, a&nbsp;proto je pro širokou veřejnost připraven celodenní program.
+          </p>
+
+          <dl class="facts">
+            <div><dt>Kdy</dt><dd>Sobota 7.&nbsp;11.&nbsp;2026, 8:00–20:00</dd></div>
+            <div><dt>Kde</dt><dd>SOŠ informatiky a&nbsp;spojů, Jaselská 826, Kolín</dd></div>
+            <div><dt>Pro koho</dt><dd>Pro kohokoli, kdo se chce přijít podívat</dd></div>
+            <div><dt>Moderuje</dt><dd>Pan Hynek Kohout, zástupce školy</dd></div>
+          </dl>
+
+          <div class="notes">
+            <div>
+              <h3>Kdo vás provede</h3>
+              <p>Celým dnem bude provázet zástupce školy pan Hynek Kohout. Ujme se role moderátora a&nbsp;představí projekt v&nbsp;celé jeho kráse.</p>
+            </div>
+            <div>
+              <h3>Jídlo a&nbsp;pití</h3>
+              <p>V&nbsp;bufetu se bude celý den točit kolínské pivo Furiant (jen pro 18+). Na plácku před školou bude místní kuchařský tým prodávat párky v&nbsp;rohlíku.</p>
+            </div>
+            <div>
+              <h3>Kdo to zaplatil</h3>
+              <p>Učebna vznikla díky sponzorům, hlavně polské firmě Genesis, od které je i&nbsp;většina vybavení. Celý seznam najdete <a href="#partneri">dole</a>.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
 
     <!-- ===================================================================
-         01 · UDÁLOST – základní informace o akci
+         PROGRAM – místo konání a harmonogram
          =================================================================== -->
-    <section class="section section--light section--rounded about" id="udalost" aria-labelledby="udalost-title">
+    <section class="section section--rule" id="program" aria-labelledby="program-title">
       <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="section-head__index">01</span>
-          <span class="section-head__label">Událost</span>
-          <span class="section-head__line"></span>
-          <span class="section-head__meta">Informace o akci</span>
+        <div class="split">
+          <h2 class="section-title" id="program-title">Program</h2>
+          <p class="split__body section-intro">
+            Celý den ve škole na Jaselské ulici. Časy jsou orientační, moderátor vás bude průběžně posílat, kam je potřeba.
+          </p>
         </div>
 
-        <h2 class="title" id="udalost-title">
-          <span class="line"><span>Nová učebna.</span></span>
-          <span class="line"><span><em>Celý den</em> programu.</span></span>
-        </h2>
+        <!-- Harmonogram jako tištěný rozpis: čas | co | kde -->
+        <ol class="timetable">
+          <li class="slot" data-live-start="2026-11-07T08:00:00+01:00" data-live-end="2026-11-07T10:00:00+01:00">
+            <span class="slot__time">8:00</span>
+            <div class="slot__what">
+              <h3>Slavnostní otevření <span class="slot__live">právě probíhá</span></h3>
+              <p>Přesně v&nbsp;8:00 začne v&nbsp;hlavní hale slavnostní otevření se studentským pěveckým sborem „Dori Bimbo Bim“. Letos se k&nbsp;nim poprvé přidají pěvecké hvězdy 4.&nbsp;ročníků&nbsp;– Adrian Netolický, Matouš Pelikán, Martin Krejčík a&nbsp;Jakub Kazmíř. Společně zazpívají studentskou hymnu „Gaudeamus Igitur“.</p>
+            </div>
+            <span class="slot__where">Hlavní hala</span>
+          </li>
 
-        <!-- Úvodní odstavec – slova se při scrollu postupně „rozsvěcují“ -->
-        <p class="about__lead" data-words>
-          Brány nové e-sportové učebny se otevřou na&nbsp;začátku listopadu, a&nbsp;to konkrétně <mark>v&nbsp;sobotu 7.&nbsp;11.&nbsp;2026</mark> v&nbsp;kolínské Střední škole informatiky. Tato spojařská bašta jde ruku v&nbsp;ruce s&nbsp;moderními trendy kupředu, a&nbsp;proto je pro <mark>širokou veřejnost</mark> připraven celodenní program.
-        </p>
+          <li class="slot" data-live-start="2026-11-07T10:00:00+01:00" data-live-end="2026-11-07T12:00:00+01:00">
+            <span class="slot__time">10:00</span>
+            <div class="slot__what">
+              <h3>Prohlídka učebny a&nbsp;první zápasy <span class="slot__live">právě probíhá</span></h3>
+              <p>Kolem 10. hodiny proběhne komentovaná prohlídka učebny a&nbsp;ukázka hardwaru a&nbsp;vybavení. Studenti prvních ročníků odehrají amatérský zápas v&nbsp;League of Legends a&nbsp;pan Tuček bude ukazovat své achievementy ve hře Doki Doki Literature Club.</p>
+              <p>Potom si může každý vyzkoušet nainstalované hry a&nbsp;poměřit síly s&nbsp;učitelským sborem, který bude přítomen.</p>
+            </div>
+            <span class="slot__where">E-sportová učebna</span>
+          </li>
 
-        <div class="about__grid">
-          <!-- Rychlá fakta -->
-          <dl class="facts" data-reveal>
-            <div class="facts__item">
-              <dt class="hud">Kdy</dt>
-              <dd>Sobota 7.&nbsp;11.&nbsp;2026<br>08:00 – 20:00</dd>
+          <li class="slot" data-live-start="2026-11-07T12:00:00+01:00" data-live-end="2026-11-07T15:00:00+01:00">
+            <span class="slot__time">12:00</span>
+            <div class="slot__what">
+              <h3>Doprovodný program po celé škole <span class="slot__live">právě probíhá</span></h3>
+              <p>Do učebny se všichni nevejdou, proto od 12:00 začíná doprovodný program v&nbsp;dalších prostorách školy:</p>
+              <ul class="slot__list">
+                <li><b>Tělocvična</b> – ukázkový zápas ve vybíjené, komise matematiky pod vedením zkušené trenérky paní Ledvinové</li>
+                <li><b>Grafický ateliér</b> – zápasy v&nbsp;bahně s&nbsp;panem učitelem Zbraňkem</li>
+                <li><b>Učebna B11</b> – přednášky místních uklízeček na téma „Lore ve hrách Five Nights at Freddy’s“</li>
+              </ul>
             </div>
-            <div class="facts__item">
-              <dt class="hud">Kde</dt>
-              <dd>SOŠ informatiky a&nbsp;spojů<br>Jaselská 826, Kolín</dd>
-            </div>
-            <div class="facts__item">
-              <dt class="hud">Pro koho</dt>
-              <dd>Pro širokou veřejnost</dd>
-            </div>
-            <div class="facts__item">
-              <dt class="hud">Financování</dt>
-              <dd>Učebna vznikla díky <a href="#partneri">sponzorům</a></dd>
-            </div>
-          </dl>
+            <span class="slot__where">Tělocvična, ateliér, B11</span>
+          </li>
 
-          <!-- Moderátor dne -->
-          <article class="host-card" data-reveal>
-            <div class="host-card__top">
-              <span class="pixel-icon pixel-icon--lg" data-pixel="mic" aria-hidden="true"></span>
-              <span class="tag tag--acid">Průvodce dnem</span>
+          <li class="slot" data-live-start="2026-11-07T15:00:00+01:00" data-live-end="2026-11-07T20:00:00+01:00">
+            <span class="slot__time">15:00</span>
+            <div class="slot__what">
+              <h3>Promítání z&nbsp;výstavby <span class="slot__live">právě probíhá</span></h3>
+              <p>Závěrečné promítání z&nbsp;výstavby celé učebny. Pan Kohout promluví o&nbsp;tom, kam se bude gaming a&nbsp;e-sport na naší škole dál vyvíjet. Potom následuje afterparty v&nbsp;místní kotelně.</p>
             </div>
-            <h3 class="host-card__name">Hynek Kohout</h3>
-            <p class="host-card__role hud">Zástupce školy · moderátor</p>
-            <p class="host-card__text">
-              Celým dnem bude provázet zástupce školy pan Hynek Kohout. Ten se ujme role moderátora a&nbsp;představí projekt v&nbsp;celé své kráse.
-            </p>
-          </article>
+            <span class="slot__where">Škola, potom kotelna</span>
+          </li>
 
-          <!-- Občerstvení -->
-          <article class="perk" data-reveal>
-            <span class="perk__icon pixel-icon" data-pixel="beer" aria-hidden="true"></span>
-            <div>
-              <h3 class="perk__title">Kolínský Furiant na čepu</h3>
-              <p>Po dobu celé akce se v&nbsp;místním bufetu bude točit kolínské pivo Furiant.</p>
-              <p class="perk__meta hud">Bufet · celý den · pouze 18+</p>
+          <li class="slot" data-live-start="2026-11-07T20:00:00+01:00" data-live-end="2026-11-07T22:00:00+01:00">
+            <span class="slot__time">20:00</span>
+            <div class="slot__what">
+              <h3>Ohňostroj <span class="slot__live">právě probíhá</span></h3>
+              <p>Celá událost skončí ve 20:00 ohňostrojem a&nbsp;tantrickým tancem těch nejpovolnějších kuchařek z&nbsp;místní jídelny. Máte se na co těšit!</p>
+              <button class="text-btn" type="button" data-fireworks>Ukázat ohňostroj nanečisto</button>
             </div>
-          </article>
+            <span class="slot__where">Před školou</span>
+          </li>
+        </ol>
 
-          <article class="perk" data-reveal>
-            <span class="perk__icon pixel-icon" data-pixel="hotdog" aria-hidden="true"></span>
-            <div>
-              <h3 class="perk__title">Párky v&nbsp;rohlíku</h3>
-              <p>Na plácku před školou bude místní kuchařský tým prodávat párky v&nbsp;rohlíku.</p>
-              <p class="perk__meta hud">Plácek před školou · celý den</p>
-            </div>
-          </article>
+        <!-- Místo konání -->
+        <div class="venue">
+          <div class="venue__text">
+            <h3>Jak k&nbsp;nám</h3>
+            <address>
+              SOŠ informatiky a&nbsp;spojů a&nbsp;SOU Kolín<br>
+              Jaselská 826<br>
+              280 02 Kolín IV
+            </address>
+            <a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=Jaselsk%C3%A1%20826%2C%20Kol%C3%ADn" target="_blank" rel="noopener">Otevřít v&nbsp;mapách ↗</a>
+          </div>
+          <div class="map">
+            <iframe title="Mapa – SOŠ informatiky a spojů, Jaselská 826, Kolín" src="https://maps.google.com/maps?q=Jaselsk%C3%A1%20826%2C%20Kol%C3%ADn&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================
+         KDO VYSTOUPÍ – zvýraznění interpreti a doprovodné akce
+         Sazba jako na festivalovém plakátu: hlavní jméno největší.
+         =================================================================== -->
+    <section class="section section--rule" id="vystoupi" aria-labelledby="vystoupi-title">
+      <div class="container">
+        <div class="split">
+          <h2 class="section-title" id="vystoupi-title">Kdo vystoupí</h2>
+          <p class="split__body section-intro">Hlavní hvězdy dne a&nbsp;lidé, kteří se postarají o&nbsp;doprovodný program.</p>
         </div>
 
-        <!-- Učebna v číslech (čísla se při zobrazení „napočítají“) -->
-        <ul class="stats" aria-label="Učebna v číslech">
-          <li class="stat" data-reveal><span class="stat__num" data-count="16">16</span><span class="stat__label hud">herních stanic</span></li>
-          <li class="stat" data-reveal><span class="stat__num" data-count="117">117</span><span class="stat__label hud">kusů periferií</span></li>
-          <li class="stat" data-reveal><span class="stat__num" data-count="32">32</span><span class="stat__label hud">kusů nábytku</span></li>
-          <li class="stat" data-reveal><span class="stat__num" data-count="12">12</span><span class="stat__label hud">hodin programu</span></li>
+        <div class="lineup">
+          <p class="lineup__label">Slavnostní otevření, 8:00</p>
+          <p class="lineup__head">Dori Bimbo Bim</p>
+          <p class="lineup__sub">studentský pěvecký sbor</p>
+
+          <p class="lineup__label">Poprvé se sborem – hvězdy 4. ročníků</p>
+          <ul class="lineup__names">
+            <li>Adrian Netolický</li>
+            <li>Matouš Pelikán</li>
+            <li>Martin Krejčík</li>
+            <li>Jakub Kazmíř</li>
+          </ul>
+        </div>
+
+        <h3 class="subhead">Doprovodný program</h3>
+        <ul class="people">
+          <li><span class="people__name">Hynek Kohout</span><span class="people__role">moderuje celý den, v&nbsp;15:00 mluví o&nbsp;budoucnosti e-sportu na škole</span></li>
+          <li><span class="people__name">Pan Tuček</span><span class="people__role">achievementy v&nbsp;Doki Doki Literature Club, kolem 10:00 v&nbsp;učebně</span></li>
+          <li><span class="people__name">Studenti 1. ročníků</span><span class="people__role">amatérský zápas v&nbsp;League of Legends, kolem 10:00</span></li>
+          <li><span class="people__name">Paní Ledvinová</span><span class="people__role">trénuje komisi matematiky na vybíjenou, od 12:00 v&nbsp;tělocvičně</span></li>
+          <li><span class="people__name">Pan učitel Zbraněk</span><span class="people__role">zápasy v&nbsp;bahně, od 12:00 v&nbsp;grafickém ateliéru</span></li>
+          <li><span class="people__name">Místní uklízečky</span><span class="people__role">přednáška „Lore ve hrách Five Nights at Freddy’s“, od 12:00 v&nbsp;B11</span></li>
+          <li><span class="people__name">Kuchařky z&nbsp;jídelny</span><span class="people__role">tantrický tanec po ohňostroji ve 20:00</span></li>
         </ul>
       </div>
     </section>
 
 
     <!-- ===================================================================
-         02 · PROGRAM – místo konání, časy a harmonogram
-         =================================================================== -->
-    <section class="section section--rounded schedule" id="program" aria-labelledby="program-title">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="section-head__index">02</span>
-          <span class="section-head__label">Program</span>
-          <span class="section-head__line"></span>
-          <span class="section-head__meta">Detaily &amp; harmonogram</span>
-        </div>
-
-        <h2 class="title" id="program-title">
-          <span class="line"><span>Harmonogram</span></span>
-          <span class="line"><span><em>od rána</em> do noci</span></span>
-        </h2>
-
-        <!-- Místo konání + mapa -->
-        <div class="venue">
-          <div class="venue__info" data-reveal>
-            <div class="venue__block">
-              <p class="hud venue__label">Místo konání</p>
-              <p class="venue__big">SOŠ informatiky a&nbsp;spojů Kolín</p>
-              <address class="venue__address">Jaselská 826<br>280 02 Kolín IV</address>
-              <a class="btn btn--ghost btn--sm" href="https://www.google.com/maps/search/?api=1&amp;query=Jaselsk%C3%A1%20826%2C%20Kol%C3%ADn" target="_blank" rel="noopener" data-magnetic>Navigovat <span aria-hidden="true">↗</span></a>
-            </div>
-
-            <div class="venue__block">
-              <p class="hud venue__label">Celý den</p>
-              <ul class="allday">
-                <li><span class="hud">08:00–20:00</span> Moderuje pan Hynek Kohout</li>
-                <li><span class="hud">Bufet</span> Na čepu kolínské pivo Furiant</li>
-                <li><span class="hud">Plácek</span> Párky v&nbsp;rohlíku od kuchařského týmu</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="map" data-reveal>
-            <iframe title="Mapa – SOŠ informatiky a spojů, Jaselská 826, Kolín" src="https://maps.google.com/maps?q=Jaselsk%C3%A1%20826%2C%20Kol%C3%ADn&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            <span class="map__label hud">Jaselská 826 · Kolín IV</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Časová osa: na počítači se při scrollu posouvá vodorovně -->
-      <div class="schedule__pin">
-        <div class="schedule__bar container" aria-hidden="true">
-          <span class="hud">08:00</span>
-          <span class="schedule__progress"><i data-tl-progress></i></span>
-          <span class="hud">20:00</span>
-        </div>
-
-        <ol class="timeline">
-          <li class="tl-card" data-live-start="2026-11-07T08:00:00+01:00" data-live-end="2026-11-07T10:00:00+01:00">
-            <div class="tl-card__head">
-              <span class="tl-card__time">08:00</span>
-              <span class="tl-card__live hud">● Právě probíhá</span>
-            </div>
-            <p class="tl-card__place hud">⌖ Hlavní hala</p>
-            <h3 class="tl-card__title">Slavnostní otevření</h3>
-            <p class="tl-card__text">
-              Přesně v&nbsp;8:00 se v&nbsp;hlavní hale školy uskuteční slavnostní otevření za účasti oblíbeného studentského pěveckého sboru „Dori Bimbo Bim“. Letos se k&nbsp;nim poprvé přidají pěvecké hvězdy 4.&nbsp;ročníků&nbsp;– Adrian Netolický, Matouš Pelikán, Martin Krejčík a&nbsp;Jakub Kazmíř. Společně zazpívají studentskou hymnu „Gaudeamus Igitur“.
-            </p>
-            <ul class="tags">
-              <li class="tag">Dori Bimbo Bim</li>
-              <li class="tag">Hvězdy 4. ročníků</li>
-              <li class="tag">Gaudeamus Igitur</li>
-            </ul>
-          </li>
-
-          <li class="tl-card" data-live-start="2026-11-07T10:00:00+01:00" data-live-end="2026-11-07T12:00:00+01:00">
-            <div class="tl-card__head">
-              <span class="tl-card__time">10:00</span>
-              <span class="tl-card__live hud">● Právě probíhá</span>
-            </div>
-            <p class="tl-card__place hud">⌖ E-sportová učebna</p>
-            <h3 class="tl-card__title">Komentovaná prohlídka</h3>
-            <p class="tl-card__text">
-              Kolem 10. hodiny proběhne komentovaná prohlídka učebny a&nbsp;ukázka hardwaru a&nbsp;vybavení. Uvidíte všech 16 herních stanic zblízka.
-            </p>
-            <ul class="tags">
-              <li class="tag">Hardware</li>
-              <li class="tag">Vybavení Genesis</li>
-            </ul>
-          </li>
-
-          <li class="tl-card" data-live-start="2026-11-07T10:00:00+01:00" data-live-end="2026-11-07T12:00:00+01:00">
-            <div class="tl-card__head">
-              <span class="tl-card__time">10:00</span>
-              <span class="tl-card__live hud">● Právě probíhá</span>
-            </div>
-            <p class="tl-card__place hud">⌖ E-sportová učebna</p>
-            <h3 class="tl-card__title">Zápasy &amp; volné hraní</h3>
-            <p class="tl-card__text">
-              Studenti prvních ročníků tu odehrají svůj amatérský zápas v&nbsp;League of Legends a&nbsp;pan Tuček bude účastníkům akce ukazovat své achievementy ve hře Doki Doki Literature Club. Pro všechny návštěvníky pak bude možnost vyzkoušet si nainstalované hry a&nbsp;poměřit síly s&nbsp;učitelským sborem, který bude přítomen.
-            </p>
-            <ul class="tags">
-              <li class="tag">League of Legends</li>
-              <li class="tag">Doki Doki Literature Club</li>
-              <li class="tag">Vy vs. učitelé</li>
-            </ul>
-          </li>
-
-          <li class="tl-card tl-card--wide" data-live-start="2026-11-07T12:00:00+01:00" data-live-end="2026-11-07T15:00:00+01:00">
-            <div class="tl-card__head">
-              <span class="tl-card__time">12:00</span>
-              <span class="tl-card__live hud">● Právě probíhá</span>
-            </div>
-            <p class="tl-card__place hud">⌖ Prostory školy</p>
-            <h3 class="tl-card__title">Doprovodný program</h3>
-            <p class="tl-card__text">
-              Vzhledem k&nbsp;velkému zájmu a&nbsp;kapacitě učebny započne od 12:00 doprovodný program v&nbsp;prostorách školy.
-            </p>
-            <ul class="sublist">
-              <li><span class="hud">Tělocvična</span><p>Ukázkový zápas ve vybíjené&nbsp;– komise matematiky pod vedením zkušené trenérky paní Ledvinové</p></li>
-              <li><span class="hud">Grafický ateliér</span><p>Zápasy v&nbsp;bahně s&nbsp;panem učitelem Zbraňkem</p></li>
-              <li><span class="hud">Učebna B11</span><p>Přednášky místních uklízeček na téma „Lore ve hrách Five Nights at Freddy’s“</p></li>
-            </ul>
-          </li>
-
-          <li class="tl-card" data-live-start="2026-11-07T15:00:00+01:00" data-live-end="2026-11-07T20:00:00+01:00">
-            <div class="tl-card__head">
-              <span class="tl-card__time">15:00</span>
-              <span class="tl-card__live hud">● Právě probíhá</span>
-            </div>
-            <p class="tl-card__place hud">⌖ SOŠ IS Kolín</p>
-            <h3 class="tl-card__title">Závěrečné promítání</h3>
-            <p class="tl-card__text">
-              Od 15:00 bude závěrečné promítání z&nbsp;výstavby celé učebny a&nbsp;pan Kohout promluví o&nbsp;směřování gamingu a&nbsp;vývoje e-sportu na&nbsp;naší škole.
-            </p>
-            <ul class="tags">
-              <li class="tag">Výstavba učebny</li>
-              <li class="tag">Budoucnost e-sportu</li>
-            </ul>
-          </li>
-
-          <li class="tl-card">
-            <div class="tl-card__head">
-              <span class="tl-card__time tl-card__time--word">Poté</span>
-            </div>
-            <p class="tl-card__place hud">⌖ Kotelna</p>
-            <h3 class="tl-card__title">Afterparty</h3>
-            <p class="tl-card__text">
-              Po promítání bude následovat afterparty v&nbsp;místní kotelně.
-            </p>
-            <ul class="tags">
-              <li class="tag">Afterparty</li>
-            </ul>
-          </li>
-
-          <li class="tl-card tl-card--finale" data-live-start="2026-11-07T20:00:00+01:00" data-live-end="2026-11-07T22:00:00+01:00">
-            <div class="tl-card__head">
-              <span class="tl-card__time">20:00</span>
-              <span class="tl-card__live hud">● Právě probíhá</span>
-            </div>
-            <p class="tl-card__place hud">⌖ Velké finále</p>
-            <h3 class="tl-card__title">Ohňostroj &amp; tanec</h3>
-            <p class="tl-card__text">
-              Celá událost bude ve 20:00 zakončena ohňostrojem a&nbsp;tantrickým tancem těch nejpovolnějších kuchařek z&nbsp;místní jídelny. Máte se na co těšit!
-            </p>
-            <button class="btn btn--acid btn--sm" type="button" data-fireworks data-magnetic>
-              <span class="pixel-icon pixel-icon--sm" data-pixel="firework" aria-hidden="true"></span>
-              Odpálit ohňostroj nanečisto
-            </button>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-
-    <!-- ===================================================================
-         03 · HVĚZDY – zvýraznění interpreti a doprovodné akce
-         Výběr postavy jako v bojové hře (ovládání myší i šipkami).
-         =================================================================== -->
-    <section class="section section--rounded stars" id="hvezdy" aria-labelledby="hvezdy-title">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="section-head__index">03</span>
-          <span class="section-head__label">Hvězdy</span>
-          <span class="section-head__line"></span>
-          <span class="section-head__meta">Interpreti &amp; doprovodné akce</span>
-        </div>
-
-        <h2 class="title" id="hvezdy-title">
-          <span class="line"><span>Vyber si</span></span>
-          <span class="line"><span><em>svého</em> hrdinu</span></span>
-        </h2>
-
-        <div class="select">
-          <!-- Detail vybrané postavy -->
-          <div class="select__stage" id="char-panel" role="tabpanel" aria-live="polite" data-reveal>
-            <div class="select__badge hud"><span>P1</span> Vybraná postava</div>
-            <canvas class="select__sprite" width="11" height="11" aria-hidden="true"></canvas>
-            <div class="select__sheet"></div>
-            <div class="select__ready">
-              <span class="hud">Připravenost</span>
-              <span class="select__ready-bar"><i></i></span>
-              <span class="hud">100&nbsp;%</span>
-            </div>
-          </div>
-
-          <!-- Mřížka postav -->
-          <div class="select__grid" role="tablist" aria-label="Interpreti a účinkující" data-reveal>
-            <button class="char" type="button" role="tab" id="tab-sbor" aria-controls="char-panel" data-char="sbor" data-hue="75"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Dori Bimbo Bim</span><span class="char__role hud">Sbor</span></button>
-            <button class="char" type="button" role="tab" id="tab-adrian" aria-controls="char-panel" data-char="adrian" data-hue="215"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Adrian Netolický</span><span class="char__role hud">4. ročník</span></button>
-            <button class="char" type="button" role="tab" id="tab-matous" aria-controls="char-panel" data-char="matous" data-hue="265"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Matouš Pelikán</span><span class="char__role hud">4. ročník</span></button>
-            <button class="char" type="button" role="tab" id="tab-martin" aria-controls="char-panel" data-char="martin" data-hue="325"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Martin Krejčík</span><span class="char__role hud">4. ročník</span></button>
-            <button class="char" type="button" role="tab" id="tab-jakub" aria-controls="char-panel" data-char="jakub" data-hue="180"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Jakub Kazmíř</span><span class="char__role hud">4. ročník</span></button>
-            <button class="char" type="button" role="tab" id="tab-kohout" aria-controls="char-panel" data-char="kohout" data-hue="22"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Hynek Kohout</span><span class="char__role hud">Moderátor</span></button>
-            <button class="char" type="button" role="tab" id="tab-tucek" aria-controls="char-panel" data-char="tucek" data-hue="300"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Pan Tuček</span><span class="char__role hud">Achievementy</span></button>
-            <button class="char" type="button" role="tab" id="tab-ledvinova" aria-controls="char-panel" data-char="ledvinova" data-hue="0"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Paní Ledvinová</span><span class="char__role hud">Vybíjená</span></button>
-            <button class="char" type="button" role="tab" id="tab-zbranek" aria-controls="char-panel" data-char="zbranek" data-hue="35"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Učitel Zbraněk</span><span class="char__role hud">Bahno</span></button>
-            <button class="char" type="button" role="tab" id="tab-uklizecky" aria-controls="char-panel" data-char="uklizecky" data-hue="48"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Uklízečky</span><span class="char__role hud">Lore FNaF</span></button>
-            <button class="char" type="button" role="tab" id="tab-kucharky" aria-controls="char-panel" data-char="kucharky" data-hue="345"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Kuchařky</span><span class="char__role hud">Finále</span></button>
-            <button class="char char--player" type="button" role="tab" id="tab-ty" aria-controls="char-panel" data-char="ty" data-hue="80"><canvas width="11" height="11" aria-hidden="true"></canvas><span class="char__name">Ty</span><span class="char__role hud">Hráč 1</span></button>
-          </div>
-        </div>
-
-        <!-- Šablony s detaily postav – JavaScript je vkládá do panelu vlevo -->
-        <template id="char-sbor">
-          <p class="sheet__class hud">Headliner · Pěvecký sbor</p>
-          <h3 class="sheet__name">„Dori Bimbo Bim“</h3>
-          <p class="sheet__desc">Oblíbený studentský pěvecký sbor zahájí celý den slavnostním otevřením v&nbsp;hlavní hale. Letos se k&nbsp;němu poprvé přidají pěvecké hvězdy 4.&nbsp;ročníků.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Hlavní hala</dd></div>
-            <div><dt>Čas</dt><dd>08:00</dd></div>
-            <div><dt>Speciální schopnost</dt><dd>Gaudeamus Igitur</dd></div>
-          </dl>
-        </template>
-        <template id="char-adrian">
-          <p class="sheet__class hud">Pěvecká hvězda · 4. ročník</p>
-          <h3 class="sheet__name">Adrian Netolický</h3>
-          <p class="sheet__desc">Jedna ze čtyř hvězd 4.&nbsp;ročníků, které se letos poprvé přidají ke sboru Dori Bimbo Bim. Společně zazpívají studentskou hymnu.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Hlavní hala</dd></div>
-            <div><dt>Čas</dt><dd>08:00</dd></div>
-            <div><dt>Parta</dt><dd>Pelikán, Krejčík, Kazmíř</dd></div>
-          </dl>
-        </template>
-        <template id="char-matous">
-          <p class="sheet__class hud">Pěvecká hvězda · 4. ročník</p>
-          <h3 class="sheet__name">Matouš Pelikán</h3>
-          <p class="sheet__desc">Jedna ze čtyř hvězd 4.&nbsp;ročníků, které se letos poprvé přidají ke sboru Dori Bimbo Bim. Společně zazpívají studentskou hymnu.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Hlavní hala</dd></div>
-            <div><dt>Čas</dt><dd>08:00</dd></div>
-            <div><dt>Parta</dt><dd>Netolický, Krejčík, Kazmíř</dd></div>
-          </dl>
-        </template>
-        <template id="char-martin">
-          <p class="sheet__class hud">Pěvecká hvězda · 4. ročník</p>
-          <h3 class="sheet__name">Martin Krejčík</h3>
-          <p class="sheet__desc">Jedna ze čtyř hvězd 4.&nbsp;ročníků, které se letos poprvé přidají ke sboru Dori Bimbo Bim. Společně zazpívají studentskou hymnu.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Hlavní hala</dd></div>
-            <div><dt>Čas</dt><dd>08:00</dd></div>
-            <div><dt>Parta</dt><dd>Netolický, Pelikán, Kazmíř</dd></div>
-          </dl>
-        </template>
-        <template id="char-jakub">
-          <p class="sheet__class hud">Pěvecká hvězda · 4. ročník</p>
-          <h3 class="sheet__name">Jakub Kazmíř</h3>
-          <p class="sheet__desc">Jedna ze čtyř hvězd 4.&nbsp;ročníků, které se letos poprvé přidají ke sboru Dori Bimbo Bim. Společně zazpívají studentskou hymnu.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Hlavní hala</dd></div>
-            <div><dt>Čas</dt><dd>08:00</dd></div>
-            <div><dt>Parta</dt><dd>Netolický, Pelikán, Krejčík</dd></div>
-          </dl>
-        </template>
-        <template id="char-kohout">
-          <p class="sheet__class hud">Moderátor · Zástupce školy</p>
-          <h3 class="sheet__name">Hynek Kohout</h3>
-          <p class="sheet__desc">Celým dnem vás provede zástupce školy pan Hynek Kohout. Ujme se role moderátora, představí projekt v&nbsp;celé jeho kráse a&nbsp;v&nbsp;15:00 promluví o&nbsp;směřování gamingu a&nbsp;vývoji e-sportu na naší škole.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Celá škola</dd></div>
-            <div><dt>Čas</dt><dd>08:00 – 20:00</dd></div>
-            <div><dt>Speciální schopnost</dt><dd>Moderuje celý den</dd></div>
-          </dl>
-        </template>
-        <template id="char-tucek">
-          <p class="sheet__class hud">Achievement hunter</p>
-          <h3 class="sheet__name">Pan Tuček</h3>
-          <p class="sheet__desc">Kolem 10. hodiny bude účastníkům akce ukazovat své achievementy ve hře Doki Doki Literature Club.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>E-sportová učebna</dd></div>
-            <div><dt>Čas</dt><dd>cca 10:00</dd></div>
-            <div><dt>Hra</dt><dd>Doki Doki Literature Club</dd></div>
-          </dl>
-        </template>
-        <template id="char-ledvinova">
-          <p class="sheet__class hud">Trenérka · Vybíjená</p>
-          <h3 class="sheet__name">Paní Ledvinová</h3>
-          <p class="sheet__desc">Zkušená trenérka povede komisi matematiky v&nbsp;ukázkovém zápase ve vybíjené.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Školní tělocvična</dd></div>
-            <div><dt>Čas</dt><dd>od 12:00</dd></div>
-            <div><dt>Tým</dt><dd>Komise matematiky</dd></div>
-          </dl>
-        </template>
-        <template id="char-zbranek">
-          <p class="sheet__class hud">Zápasník · Bahno</p>
-          <h3 class="sheet__name">Pan učitel Zbraněk</h3>
-          <p class="sheet__desc">V&nbsp;místním grafickém ateliéru budou probíhat zápasy v&nbsp;bahně s&nbsp;panem učitelem Zbraňkem.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Grafický ateliér</dd></div>
-            <div><dt>Čas</dt><dd>od 12:00</dd></div>
-            <div><dt>Disciplína</dt><dd>Zápas v&nbsp;bahně</dd></div>
-          </dl>
-        </template>
-        <template id="char-uklizecky">
-          <p class="sheet__class hud">Lore masters · Přednáška</p>
-          <h3 class="sheet__name">Místní uklízečky</h3>
-          <p class="sheet__desc">Na učebně B11 budou probíhat přednášky od místních uklízeček na téma „Lore ve hrách Five Nights at Freddy’s“.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>Učebna B11</dd></div>
-            <div><dt>Čas</dt><dd>od 12:00</dd></div>
-            <div><dt>Téma</dt><dd>Lore ve FNaF</dd></div>
-          </dl>
-        </template>
-        <template id="char-kucharky">
-          <p class="sheet__class hud">Velké finále · Tanec</p>
-          <h3 class="sheet__name">Kuchařky z&nbsp;jídelny</h3>
-          <p class="sheet__desc">Celá událost bude ve 20:00 zakončena ohňostrojem a&nbsp;tantrickým tancem těch nejpovolnějších kuchařek z&nbsp;místní jídelny.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Odkud</dt><dd>Školní jídelna</dd></div>
-            <div><dt>Čas</dt><dd>20:00</dd></div>
-            <div><dt>Speciální schopnost</dt><dd>Tantrický tanec</dd></div>
-          </dl>
-        </template>
-        <template id="char-ty">
-          <p class="sheet__class hud">Hráč 1 · Návštěvník</p>
-          <h3 class="sheet__name">Ty</h3>
-          <p class="sheet__desc">V&nbsp;nové učebně si můžeš vyzkoušet nainstalované hry a&nbsp;poměřit síly s&nbsp;učitelským sborem, který bude přítomen.</p>
-          <dl class="sheet__attrs">
-            <div><dt>Lokace</dt><dd>E-sportová učebna</dd></div>
-            <div><dt>Čas</dt><dd>od 10:00</dd></div>
-            <div><dt>Výzva</dt><dd>Poraz učitele</dd></div>
-          </dl>
-        </template>
-
-        <!-- Doprovodné akce jako „vedlejší úkoly“ -->
-        <div class="quests-wrap">
-          <div class="quests-head" data-reveal>
-            <h3 class="quests-title">Vedlejší úkoly</h3>
-            <p class="hud">Doprovodné akce · sbírej XP</p>
-          </div>
-
-          <ol class="quests">
-            <li class="quest" data-reveal><span class="quest__num hud">Q01</span><span class="quest__name">Komentovaná prohlídka učebny a&nbsp;ukázka hardwaru</span><span class="quest__place hud">E-sportová učebna</span><span class="quest__time hud">cca 10:00</span><span class="quest__xp hud">+100 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q02</span><span class="quest__name">Amatérský zápas v&nbsp;League of Legends (1. ročníky)</span><span class="quest__place hud">E-sportová učebna</span><span class="quest__time hud">cca 10:00</span><span class="quest__xp hud">+150 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q03</span><span class="quest__name">Achievementy v&nbsp;Doki Doki Literature Club</span><span class="quest__place hud">E-sportová učebna</span><span class="quest__time hud">cca 10:00</span><span class="quest__xp hud">+120 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q04</span><span class="quest__name">Poměř síly s&nbsp;učitelským sborem</span><span class="quest__place hud">E-sportová učebna</span><span class="quest__time hud">od 10:00</span><span class="quest__xp hud">+300 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q05</span><span class="quest__name">Ukázkový zápas ve vybíjené</span><span class="quest__place hud">Tělocvična</span><span class="quest__time hud">od 12:00</span><span class="quest__xp hud">+200 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q06</span><span class="quest__name">Zápasy v&nbsp;bahně s&nbsp;panem učitelem Zbraňkem</span><span class="quest__place hud">Grafický ateliér</span><span class="quest__time hud">od 12:00</span><span class="quest__xp hud">+250 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q07</span><span class="quest__name">Přednáška „Lore ve hrách Five Nights at Freddy’s“</span><span class="quest__place hud">Učebna B11</span><span class="quest__time hud">od 12:00</span><span class="quest__xp hud">+180 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q08</span><span class="quest__name">Promítání z&nbsp;výstavby učebny</span><span class="quest__place hud">SOŠ IS Kolín</span><span class="quest__time hud">15:00</span><span class="quest__xp hud">+100 XP</span></li>
-            <li class="quest" data-reveal><span class="quest__num hud">Q09</span><span class="quest__name">Afterparty v&nbsp;kotelně</span><span class="quest__place hud">Kotelna</span><span class="quest__time hud">po promítání</span><span class="quest__xp hud">+400 XP</span></li>
-            <li class="quest quest--boss" data-reveal><span class="quest__num hud">Q10</span><span class="quest__name">Ohňostroj a&nbsp;tantrický tanec kuchařek</span><span class="quest__place hud">Velké finále</span><span class="quest__time hud">20:00</span><span class="quest__xp hud">+999 XP</span></li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ===================================================================
-         04 · UČEBNA – vybavení a 3D vizualizace
-         Plocha „stage“ je průhledná – prosvítá jí 3D scéna z pozadí.
+         UČEBNA – vybavení a 3D vizualizace
+         Plocha „stage“ je průhledná, prosvítá jí 3D scéna z pozadí.
          =================================================================== -->
     <section class="classroom" id="ucebna" aria-labelledby="ucebna-title">
-      <div class="classroom__head section--rounded">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <span class="section-head__index">04</span>
-            <span class="section-head__label">Učebna</span>
-            <span class="section-head__line"></span>
-            <span class="section-head__meta">Vybavení &amp; vizualizace</span>
-          </div>
-
-          <div class="classroom__intro">
-            <h2 class="title" id="ucebna-title">
-              <span class="line"><span>16 stanic.</span></span>
-              <span class="line"><span><em>Nulový</em> lag.</span></span>
-            </h2>
-            <p class="classroom__text" data-reveal>
-              Dva herní ostrovy po osmi stanicích&nbsp;– tým modrý a&nbsp;tým červený&nbsp;–, komentátorský pult se dvěma mikrofony a&nbsp;velká projekce. Celou učebnu si můžete prohlédnout ve 3D: táhněte myší nebo prstem, přepínejte pohledy a&nbsp;najeďte na položku vybavení.
+      <div class="classroom__head">
+        <div class="container split">
+          <h2 class="section-title" id="ucebna-title">Učebna</h2>
+          <div class="split__body">
+            <p class="section-intro">
+              Dva ostrovy po osmi stanicích (modrý a&nbsp;červený tým), komentátorský pult se dvěma mikrofony a&nbsp;velká projekce na zadní stěně. Model níže si můžete otočit tažením myší nebo prstem. Když najedete na položku v&nbsp;seznamu vybavení, rozsvítí se v&nbsp;modelu.
             </p>
           </div>
         </div>
       </div>
 
       <div class="classroom__body">
-        <!-- Interaktivní plocha nad 3D scénou -->
-        <div class="stage" data-stage data-cursor="Táhni">
-          <div class="stage__hud stage__hud--top">
-            <p class="hud stage__title"><span class="live-dot" aria-hidden="true"></span> Live 3D · Vizualizace učebny</p>
+        <div class="stage" data-stage>
+          <div class="stage__bar stage__bar--top">
             <div class="views" role="group" aria-label="Pohled kamery">
               <button class="views__btn" type="button" data-view="celek" aria-pressed="true">Celek</button>
               <button class="views__btn" type="button" data-view="stanice" aria-pressed="false">Stanice</button>
@@ -679,209 +313,132 @@
             </div>
           </div>
 
-          <div class="stage__hud stage__hud--bottom">
-            <p class="hud stage__hint">⟷ Táhni pro otočení</p>
-            <ul class="legend hud">
-              <li><i class="legend__dot legend__dot--blue"></i>Tým modrý · 8 stanic</li>
-              <li><i class="legend__dot legend__dot--red"></i>Tým červený · 8 stanic</li>
-            </ul>
-            <button class="rgb-toggle hud" type="button" data-rgb aria-pressed="false">RGB mód</button>
+          <div class="stage__bar stage__bar--bottom">
+            <p class="stage__hint">Táhněte pro otočení</p>
+            <button class="views__btn rgb-toggle" type="button" data-rgb aria-pressed="false">RGB podsvícení</button>
           </div>
 
           <!-- Body zájmu – JavaScript je umisťuje podle polohy ve 3D -->
           <div class="stage__hotspots" data-hotspots>
-            <button class="hotspot" type="button" data-hotspot="stanice"><span class="hotspot__dot"></span><span class="hotspot__label">16 herních stanic</span></button>
+            <button class="hotspot" type="button" data-hotspot="stanice"><span class="hotspot__dot"></span><span class="hotspot__label">Herní stanice</span></button>
             <button class="hotspot" type="button" data-hotspot="pult"><span class="hotspot__dot"></span><span class="hotspot__label">Komentátorský pult</span></button>
-            <button class="hotspot" type="button" data-hotspot="projekce"><span class="hotspot__dot"></span><span class="hotspot__label">Projekce &amp; Helium 800</span></button>
-            <button class="hotspot" type="button" data-hotspot="brana"><span class="hotspot__dot"></span><span class="hotspot__label">Vstup do učebny</span></button>
+            <button class="hotspot" type="button" data-hotspot="projekce"><span class="hotspot__dot"></span><span class="hotspot__label">Projekce</span></button>
+            <button class="hotspot" type="button" data-hotspot="brana"><span class="hotspot__dot"></span><span class="hotspot__label">Vchod</span></button>
           </div>
 
-          <!-- Popisek stanice při najetí myší -->
-          <div class="stage__tooltip hud" data-stage-tooltip></div>
+          <div class="stage__tooltip" data-stage-tooltip></div>
 
-          <!-- Záloha, když prohlížeč neumí WebGL: jednoduchý půdorys -->
+          <!-- Záloha bez WebGL: jednoduchý půdorys -->
           <div class="stage__fallback">
             <div class="plan" aria-label="Půdorys učebny">
-              <div class="plan__screen hud">Projekce · Helium 800</div>
+              <div class="plan__screen">Projekce</div>
               <div class="plan__island plan__island--blue"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="plan__caster hud">Pult</div>
+              <div class="plan__caster">Pult</div>
               <div class="plan__island plan__island--red"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
             </div>
-            <p class="hud">Půdorys učebny · 3D náhled není v&nbsp;tomto prohlížeči dostupný</p>
+            <p>Půdorys učebny. 3D model se v&nbsp;tomto prohlížeči nepodařilo spustit.</p>
           </div>
         </div>
 
-        <!-- Seznam vybavení („loadout“) – najetím zvýrazníte položku ve 3D -->
-        <aside class="loadout" aria-labelledby="loadout-title" data-lenis-prevent>
-          <div class="loadout__head">
-            <h3 class="loadout__title" id="loadout-title">Loadout učebny</h3>
-            <p class="hud">Najeď nebo klikni → zvýraznění ve 3D</p>
-          </div>
+        <!-- Seznam vybavení – najetím zvýrazníte položku ve 3D -->
+        <aside class="loadout" aria-labelledby="loadout-title">
+          <h3 class="loadout__title" id="loadout-title">Vybavení</h3>
 
-          <div class="loadout__group">
-            <p class="loadout__label hud"><span>Periferie</span><span>117 ks</span></p>
-            <ul class="gear-list">
-              <li class="gear" data-gear="mouse"><button class="gear__btn" type="button"><span class="gear__cat hud">Myš</span><span class="gear__name">Genesis Krypton 750</span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/product/krypton-750-black" target="_blank" rel="noopener" aria-label="Genesis Krypton 750 na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="keyboard"><button class="gear__btn" type="button"><span class="gear__cat hud">Klávesnice</span><span class="gear__name">Genesis Thor 303 <small>CZ/SK</small></span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/product/thor-303-black-outemu-red" target="_blank" rel="noopener" aria-label="Genesis Thor 303 na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="pad"><button class="gear__btn" type="button"><span class="gear__cat hud">Podložka</span><span class="gear__name">Genesis Boron 500 XXL RGB</span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/product/boron-500-xxl-800x400mm" target="_blank" rel="noopener" aria-label="Genesis Boron 500 XXL RGB na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="headset"><button class="gear__btn" type="button"><span class="gear__cat hud">Sluchátka</span><span class="gear__name">Genesis Neon 613 G2</span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/product/neon-613-g2-black" target="_blank" rel="noopener" aria-label="Genesis Neon 613 G2 na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="bungee"><button class="gear__btn" type="button"><span class="gear__cat hud">Držák kabelu</span><span class="gear__name">Genesis Vanad 500</span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/product/vanad-500" target="_blank" rel="noopener" aria-label="Genesis Vanad 500 na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="controller"><button class="gear__btn" type="button"><span class="gear__cat hud">Ovladač</span><span class="gear__name">Genesis Mangan 400</span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/product/mangan-400-black" target="_blank" rel="noopener" aria-label="Genesis Mangan 400 na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="webcam"><button class="gear__btn" type="button"><span class="gear__cat hud">Webkamera</span><span class="gear__name">Natec Lori Plus <small>Full HD</small></span><span class="gear__qty">×16</span></button></li>
-              <li class="gear" data-gear="mic"><button class="gear__btn" type="button"><span class="gear__cat hud">Mikrofon</span><span class="gear__name">Genesis Radium 600 G2</span><span class="gear__qty">×2</span></button><a class="gear__link" href="https://genesis-zone.com/product/radium-600-g2" target="_blank" rel="noopener" aria-label="Genesis Radium 600 G2 na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="arm"><button class="gear__btn" type="button"><span class="gear__cat hud">Rameno mikrofonu</span><span class="gear__name">Genesis Thulium 700</span><span class="gear__qty">×2</span></button><a class="gear__link" href="https://genesis-zone.com/product/microphone-arm-thulium-700" target="_blank" rel="noopener" aria-label="Genesis Thulium 700 na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="speaker"><button class="gear__btn" type="button"><span class="gear__cat hud">Reproduktory</span><span class="gear__name">Genesis Helium 800 BT ARGB</span><span class="gear__qty">×1</span></button><a class="gear__link" href="https://genesis-zone.com/product/genesis-helium-800bt" target="_blank" rel="noopener" aria-label="Genesis Helium 800 BT na webu výrobce">↗</a></li>
-            </ul>
-          </div>
+          <p class="loadout__group"><span>Periferie</span><span>117 ks</span></p>
+          <ul class="gear-list">
+            <li class="gear" data-gear="mouse"><button class="gear__btn" type="button"><span class="gear__cat">Myš</span><span class="gear__name">Genesis Krypton 750</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/product/krypton-750-black" target="_blank" rel="noopener" aria-label="Genesis Krypton 750 na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="keyboard"><button class="gear__btn" type="button"><span class="gear__cat">Klávesnice (CZ/SK)</span><span class="gear__name">Genesis Thor 303</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/product/thor-303-black-outemu-red" target="_blank" rel="noopener" aria-label="Genesis Thor 303 na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="pad"><button class="gear__btn" type="button"><span class="gear__cat">Podložka</span><span class="gear__name">Genesis Boron 500 XXL RGB</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/product/boron-500-xxl-800x400mm" target="_blank" rel="noopener" aria-label="Genesis Boron 500 XXL RGB na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="headset"><button class="gear__btn" type="button"><span class="gear__cat">Sluchátka</span><span class="gear__name">Genesis Neon 613 G2</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/product/neon-613-g2-black" target="_blank" rel="noopener" aria-label="Genesis Neon 613 G2 na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="bungee"><button class="gear__btn" type="button"><span class="gear__cat">Držák kabelu</span><span class="gear__name">Genesis Vanad 500</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/product/vanad-500" target="_blank" rel="noopener" aria-label="Genesis Vanad 500 na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="controller"><button class="gear__btn" type="button"><span class="gear__cat">Ovladač</span><span class="gear__name">Genesis Mangan 400</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/product/mangan-400-black" target="_blank" rel="noopener" aria-label="Genesis Mangan 400 na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="webcam"><button class="gear__btn" type="button"><span class="gear__cat">Webkamera (Full HD)</span><span class="gear__name">Natec Lori Plus</span><span class="gear__qty">16×</span></button></li>
+            <li class="gear" data-gear="mic"><button class="gear__btn" type="button"><span class="gear__cat">Mikrofon</span><span class="gear__name">Genesis Radium 600 G2</span><span class="gear__qty">2×</span></button><a class="gear__link" href="https://genesis-zone.com/product/radium-600-g2" target="_blank" rel="noopener" aria-label="Genesis Radium 600 G2 na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="arm"><button class="gear__btn" type="button"><span class="gear__cat">Rameno mikrofonu</span><span class="gear__name">Genesis Thulium 700</span><span class="gear__qty">2×</span></button><a class="gear__link" href="https://genesis-zone.com/product/microphone-arm-thulium-700" target="_blank" rel="noopener" aria-label="Genesis Thulium 700 na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="speaker"><button class="gear__btn" type="button"><span class="gear__cat">Reproduktory</span><span class="gear__name">Genesis Helium 800 BT ARGB</span><span class="gear__qty">1×</span></button><a class="gear__link" href="https://genesis-zone.com/product/genesis-helium-800bt" target="_blank" rel="noopener" aria-label="Genesis Helium 800 BT na webu výrobce">↗</a></li>
+          </ul>
 
-          <div class="loadout__group">
-            <p class="loadout__label hud"><span>Nábytek</span><span>32 ks</span></p>
-            <ul class="gear-list">
-              <li class="gear" data-gear="desk"><button class="gear__btn" type="button"><span class="gear__cat hud">Herní stůl</span><span class="gear__name">Genesis Holm Modular</span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/category/gaming-desk" target="_blank" rel="noopener" aria-label="Herní stoly Genesis na webu výrobce">↗</a></li>
-              <li class="gear" data-gear="chair"><button class="gear__btn" type="button"><span class="gear__cat hud">Herní židle</span><span class="gear__name">Genesis Nitro 720 <small>černo-červená</small></span><span class="gear__qty">×16</span></button><a class="gear__link" href="https://genesis-zone.com/product/nitro-720-black-grey" target="_blank" rel="noopener" aria-label="Genesis Nitro 720 na webu výrobce">↗</a></li>
-            </ul>
-          </div>
-
-          <p class="loadout__total"><span class="hud">Celkem</span><b>149</b><span class="hud">kusů vybavení</span></p>
+          <p class="loadout__group"><span>Nábytek</span><span>32 ks</span></p>
+          <ul class="gear-list">
+            <li class="gear" data-gear="desk"><button class="gear__btn" type="button"><span class="gear__cat">Herní stůl</span><span class="gear__name">Genesis Holm Modular</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/category/gaming-desk" target="_blank" rel="noopener" aria-label="Herní stoly Genesis na webu výrobce">↗</a></li>
+            <li class="gear" data-gear="chair"><button class="gear__btn" type="button"><span class="gear__cat">Herní židle (černo-červená)</span><span class="gear__name">Genesis Nitro 720</span><span class="gear__qty">16×</span></button><a class="gear__link" href="https://genesis-zone.com/product/nitro-720-black-grey" target="_blank" rel="noopener" aria-label="Genesis Nitro 720 na webu výrobce">↗</a></li>
+          </ul>
         </aside>
       </div>
     </section>
 
 
     <!-- ===================================================================
-         05 · PARTNEŘI – sponzoři a mediální partneři
+         PARTNEŘI – sponzoři a mediální partneři
          =================================================================== -->
-    <section class="section section--acid section--rounded partners" id="partneri" aria-labelledby="partneri-title">
+    <section class="section" id="partneri" aria-labelledby="partneri-title">
       <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="section-head__index">05</span>
-          <span class="section-head__label">Partneři</span>
-          <span class="section-head__line"></span>
-          <span class="section-head__meta">Sponzoři &amp; média</span>
+        <div class="split">
+          <h2 class="section-title" id="partneri-title">Partneři</h2>
+          <p class="split__body section-intro">Bez nich by učebna nevznikla. Děkujeme.</p>
         </div>
 
-        <h2 class="title" id="partneri-title">
-          <span class="line"><span>Díky nim</span></span>
-          <span class="line"><span><em>to celé</em> jede</span></span>
-        </h2>
-
-        <div class="partners__group">
-          <p class="partners__label hud">Sponzoři akce</p>
-          <ul class="partners__grid partners__grid--3">
-            <li class="partner partner--lead" data-reveal>
-              <span class="partner__role hud">Hlavní sponzor · Polsko</span>
-              <span class="partner__name partner__name--genesis">Genesis</span>
-              <span class="partner__desc">Polská značka herního vybavení&nbsp;– z&nbsp;její nabídky pochází výbava všech 16 stanic.</span>
-            </li>
-            <li class="partner" data-reveal>
-              <span class="partner__role hud">Sponzor</span>
-              <span class="partner__name partner__name--esgs">ESGS</span>
-              <span class="partner__desc">E-sportová organizace</span>
-            </li>
-            <li class="partner" data-reveal>
-              <span class="partner__role hud">Sponzor</span>
-              <span class="partner__name partner__name--ms">Microsoft</span>
-              <span class="partner__desc">Technologická firma</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="partners__group">
-          <p class="partners__label hud">Mediální partneři</p>
-          <ul class="partners__grid partners__grid--2">
-            <li class="partner" data-reveal>
-              <span class="partner__role hud">Média</span>
-              <span class="partner__name partner__name--denik">Kolínský deník</span>
-            </li>
-            <li class="partner" data-reveal>
-              <span class="partner__role hud">Média</span>
-              <span class="partner__name partner__name--tv">Kolínská televize</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="partners__group">
-          <p class="partners__label hud">Událost vznikla za podpory</p>
-          <ul class="partners__grid partners__grid--3">
-            <li class="partner partner--small" data-reveal>
-              <span class="partner__role hud">Město</span>
-              <span class="partner__name partner__name--city">Město Kolín</span>
-            </li>
-            <li class="partner partner--small" data-reveal>
-              <span class="partner__role hud">Škola</span>
-              <span class="partner__name partner__name--school">Střední škola informatiky a&nbsp;ekonomiky v&nbsp;Kolíně</span>
-            </li>
-            <li class="partner partner--small" data-reveal>
-              <span class="partner__role hud">Projekt</span>
-              <span class="partner__name partner__name--chimp">„Šimpanzi neumějí hrát hry“</span>
-              <span class="partner__desc">Inkluzivní projekt o&nbsp;začlenění primátů do společnosti</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="marquee marquee--partners" aria-hidden="true">
-        <div class="marquee__track">
-          <span>Genesis ✦ ESGS ✦ Microsoft ✦ Kolínský deník ✦ Kolínská televize ✦ Město Kolín ✦ Šimpanzi neumějí hrát hry ✦&nbsp;</span>
-          <span>Genesis ✦ ESGS ✦ Microsoft ✦ Kolínský deník ✦ Kolínská televize ✦ Město Kolín ✦ Šimpanzi neumějí hrát hry ✦&nbsp;</span>
-        </div>
+        <dl class="partners">
+          <div class="partners__row">
+            <dt>Sponzoři</dt>
+            <dd>
+              <ul>
+                <li>Genesis <small>polská značka herního vybavení</small></li>
+                <li>ESGS <small>e-sportová organizace</small></li>
+                <li>Microsoft</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="partners__row">
+            <dt>Mediální partneři</dt>
+            <dd>
+              <ul>
+                <li>Kolínský deník</li>
+                <li>Kolínská televize</li>
+              </ul>
+            </dd>
+          </div>
+          <div class="partners__row">
+            <dt>Za podpory</dt>
+            <dd>
+              <ul>
+                <li>Město Kolín</li>
+                <li>Střední škola informatiky a&nbsp;ekonomiky v&nbsp;Kolíně</li>
+                <li>„Šimpanzi neumějí hrát hry“ <small>inkluzivní projekt o&nbsp;začlenění primátů do společnosti</small></li>
+              </ul>
+            </dd>
+          </div>
+        </dl>
       </div>
     </section>
 
 
     <!-- ===================================================================
-         06 · KONTAKT – pořadatel akce
+         KONTAKT – pořadatel akce
          ✏️ Údaje pořadatele (jméno, e-mail, telefon) doplňte níže.
          =================================================================== -->
-    <section class="section section--rounded contact" id="kontakt" aria-labelledby="kontakt-title">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="section-head__index">06</span>
-          <span class="section-head__label">Kontakt</span>
-          <span class="section-head__line"></span>
-          <span class="section-head__meta">Pořadatel akce</span>
-        </div>
+    <section class="section section--rule" id="kontakt" aria-labelledby="kontakt-title">
+      <div class="container split">
+        <h2 class="section-title" id="kontakt-title">Kontakt</h2>
 
-        <div class="contact__grid">
-          <div class="contact__main">
-            <h2 class="title" id="kontakt-title">
-              <span class="line"><span>Máte dotaz?</span></span>
-              <span class="line"><span><em>Ozvěte</em> se.</span></span>
-            </h2>
-            <!-- ✏️ DOPLŇTE: e-mail pořadatele (v odkazu i v textu) -->
-            <a class="contact__mail" href="mailto:jmeno.prijmeni@example.com?subject=Otev%C5%99en%C3%AD%20e-sportov%C3%A9%20u%C4%8Debny" data-cursor="Napsat">jmeno.prijmeni@example.com</a>
-          </div>
+        <div class="split__body contact">
+          <p class="section-intro">Máte dotaz k&nbsp;programu nebo chcete pomoct? Napište pořadateli.</p>
 
-          <div class="contact__cards">
-            <!-- Karta pořadatele ve stylu „hráčské karty“ -->
-            <article class="player-card" data-reveal>
-              <div class="player-card__top">
-                <span class="hud">Pořadatel</span>
-                <span class="tag tag--acid">Organizátor</span>
-              </div>
-              <canvas class="player-card__sprite" width="11" height="11" data-sprite="poradatel" data-hue="80" aria-hidden="true"></canvas>
-              <!-- ✏️ DOPLŇTE: vaše jméno a příjmení -->
-              <h3 class="player-card__name">Jméno Příjmení</h3>
-              <p class="player-card__role">Pořadatel akce · SOŠ informatiky a&nbsp;spojů Kolín</p>
-              <dl class="player-card__list">
-                <div><dt class="hud">E-mail</dt><dd><a href="mailto:jmeno.prijmeni@example.com">jmeno.prijmeni@example.com</a></dd></div>
-                <!-- ✏️ DOPLŇTE: telefon pořadatele -->
-                <div><dt class="hud">Telefon</dt><dd><a href="tel:+420000000000">+420 000 000 000</a></dd></div>
-              </dl>
-            </article>
-
-            <article class="info-card" data-reveal>
-              <p class="hud">Místo konání</p>
-              <p class="info-card__big">SOŠ informatiky a&nbsp;spojů a&nbsp;SOU Kolín</p>
-              <address>Jaselská 826, 280 02 Kolín IV</address>
-            </article>
-
-            <article class="info-card" data-reveal>
-              <p class="hud">Datum a&nbsp;čas</p>
-              <p class="info-card__big">Sobota 7.&nbsp;11.&nbsp;2026</p>
-              <p>08:00 – 20:00 · vstup pro veřejnost</p>
-              <button class="btn btn--ghost btn--sm" type="button" data-ics data-magnetic>+ Přidat do kalendáře</button>
-            </article>
+          <div class="contact__grid">
+            <div>
+              <h3>Pořadatel</h3>
+              <!-- ✏️ DOPLŇTE: jméno, e-mail a telefon -->
+              <p class="contact__name">Jméno Příjmení</p>
+              <p>
+                <a href="mailto:jmeno.prijmeni@example.com?subject=Otev%C5%99en%C3%AD%20e-sportov%C3%A9%20u%C4%8Debny">jmeno.prijmeni@example.com</a><br>
+                <a href="tel:+420000000000">+420 000 000 000</a>
+              </p>
+            </div>
+            <div>
+              <h3>Kdy a&nbsp;kde</h3>
+              <p>Sobota 7.&nbsp;11.&nbsp;2026, 8:00–20:00<br>Jaselská 826, 280 02 Kolín IV</p>
+              <button class="btn" type="button" data-ics>Přidat do kalendáře</button>
+            </div>
           </div>
         </div>
       </div>
@@ -889,33 +446,23 @@
   </main>
 
 
-  <!-- =====================================================================
-       PATIČKA
-       ===================================================================== -->
   <footer class="footer">
     <div class="container">
-      <p class="footer__kicker hud">Game on · uvidíme se</p>
-      <p class="footer__big" data-fit aria-hidden="true"><span>Uvidíme se</span></p>
-      <p class="footer__date"><span>07.11.2026</span><span class="footer__date-sep" aria-hidden="true"></span><span>08:00</span></p>
-
+      <p class="footer__big" data-fit aria-hidden="true"><span>Uvidíme se 7. 11.</span></p>
       <div class="footer__bottom">
         <!-- ✏️ DOPLŇTE: autor webu -->
-        <p class="hud">© <span data-year>2026</span> · Projekt TWS · Web vytvořil Jméno Příjmení</p>
-        <p class="hud">SOŠ informatiky a&nbsp;spojů Kolín · Jaselská 826</p>
-        <a class="footer__top hud" href="#uvod" data-magnetic>Zpět nahoru ↑</a>
+        <p>© 2026 · Projekt do předmětu TWS · Web vytvořil Jméno Příjmení</p>
+        <p>SOŠ informatiky a&nbsp;spojů Kolín, Jaselská 826</p>
+        <a href="#uvod">Zpět nahoru ↑</a>
       </div>
     </div>
   </footer>
 
 
-  <!-- =====================================================================
-       SKRIPTY
-       GSAP + ScrollTrigger = animace při scrollu, Lenis = plynulý scroll.
-       classroom.js = 3D učebna, main.js = vše ostatní.
-       ===================================================================== -->
+  <!-- GSAP + ScrollTrigger = otevírání brány při scrollu.
+       classroom.js = 3D učebna, main.js = vše ostatní. -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="js/classroom.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
